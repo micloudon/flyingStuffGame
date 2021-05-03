@@ -27,22 +27,53 @@ var tallRectV = -50;
 var squareH = 300;
 var squareV = 30;
 
-var userH = 100;
-var userV = 50;
+var userCircle = {
+    userX: 100, 
+    userY: 50, 
+    radius: 6,
+    drawUserShape: function() {
+        ctx.beginPath(),
+        ctx.arc(this.userX, this.userY, this.radius, 0, Math.PI*2);
+        ctx.fillStyle = "red";
+        ctx.fill();
+        ctx.closePath();
+    
+        canvas.addEventListener("mousemove", updateUserShape, false);
+    }
+
+};
+
+var bigCircle = {
+    bCirX: 50,
+    bCirY: 0,
+    radius: 40,
+    drawBall: function() {
+        ctx.beginPath();
+        ctx.arc(this.bCirX, this.bCirY, this.radius, 0, Math.PI*2);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+    
+        updateBall();
+    }
+
+}
+
 
 var angle = 0;
 
+// ball shape
+// function drawBall() {
+//     ctx.beginPath();
+//     ctx.arc(ballH, ballV, 40, 0, Math.PI*2);
+//     ctx.fillStyle = "#0095DD";
+//     ctx.fill();
+//     ctx.closePath();
 
-function drawBall() {
-    ctx.beginPath();
-    ctx.arc(ballH, ballV, 40, 0, Math.PI*2);
-    ctx.fillStyle = "#0095DD";
-    ctx.fill();
-    ctx.closePath();
+//     updateBall();
+// }
 
-    updateBall();
-}
-
+// small rect
 function drawRect() {
     ctx.beginPath();
     ctx.rect(rectH, rectV, 10, 10);
@@ -53,6 +84,7 @@ function drawRect() {
     updateRect();
 }
 
+// small rect
 function drawRect2() {
     ctx.beginPath();
     ctx.rect(rectH2, rectV2, 10, 10);
@@ -63,6 +95,7 @@ function drawRect2() {
     updateRect2();
 }
 
+// small rect
 function drawRect3() {
     ctx.beginPath();
     ctx.rect(rectH3, rectV3, 10, 10);
@@ -73,6 +106,7 @@ function drawRect3() {
     updateRect3();
 }
 
+// small rect
 function drawRect4() {
     ctx.beginPath();
     ctx.rect(rectH4, rectV4, 10, 10);
@@ -83,6 +117,7 @@ function drawRect4() {
     updateRect4();
 }
 
+// long rect
 function drawLongRect() {
     ctx.beginPath();
     ctx.rect(longRectH, longRectV, 90, 20);
@@ -93,6 +128,7 @@ function drawLongRect() {
     updateLongRect();
 }
 
+// tall rect
 function drawTallRect() {
     ctx.beginPath();
     ctx.rect(tallRectH, tallRectV, 10, 70);
@@ -103,6 +139,7 @@ function drawTallRect() {
     updateTallRect()
 }
 
+// big square
 function drawSquare() {
     ctx.beginPath();
     ctx.rect(squareH, squareV, 50, 50);
@@ -110,18 +147,11 @@ function drawSquare() {
     ctx.fill();
     ctx.closePath();
 
-    updateSquare()
+    
+
 }
 
-function drawUserShape() {
-    ctx.beginPath();
-    ctx.arc(userH, userV, 6, 0, Math.PI*2);
-    ctx.fillStyle = "red";
-    ctx.fill();
-    ctx.closePath();
 
-    updateUserShape()
-}
 
 function updateBall(){
     ballH -= angle;
@@ -200,13 +230,12 @@ function updateSquare(){
     }
 }
 
-function updateUserShape(){
-    userV = (event.pageY/6);
-    userH = (event.pageX/6);
+
+function updateUserShape(e){
+    userCircle.userX = (e.clientX/6);
+    userCircle.userY = (e.clientY/6);
     
 }
-
-canvas.addEventListener("mousemove", updateUserShape, false);
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -218,7 +247,8 @@ function draw() {
     drawLongRect();
     drawTallRect();
     drawSquare();
-    drawUserShape();
+    // drawUserShape();
+    userCircle.drawUserShape();
 
     updateBall();
     updateRect();
@@ -228,10 +258,18 @@ function draw() {
     updateLongRect();
     updateTallRect();
     updateSquare();
-    updateUserShape();
-    
+    canvas.addEventListener("mousemove", updateUserShape, false);
+
+    var dx = ballH - userH;
+    var dy = ballV - userV;
+    var distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < 40 + 6) {
+        
+    }
     
 }
+
 
 
 setInterval(draw, 25);
