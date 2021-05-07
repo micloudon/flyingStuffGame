@@ -7,10 +7,36 @@ const ctx = canvas.getContext("2d");
 ctx.fillStyle = "white";
 ctx.scale(13,13);
 
+var score = 1;
+const startBtn = document.querySelector('#start-game')
+
+startBtn.addEventListener('click', () => {
+    location.replace("index.html")
+})
+
+var intervalTimer = 25;
+
+var interval = setInterval(draw, intervalTimer);
+// clearInterval(interval);
+var myobj = document.getElementById("overlay");
+
+function startGame() {
+    interval
+    myobj.style.width = "0%";
+    // score = 1;
+  }
+
+  function gameOver() {
+    clearInterval(interval);
+    myobj.style.width = "100%";
+    // userCircle.color = "yellow";
+    document.getElementById('game-over-msg').innerHTML = "GameOver";
+    document.getElementById('display-score').innerHTML = score;
+    document.getElementById('start-game').innerHTML = "New Game";
+}
 
 var angle = 0;
 
-var score = 1;
 
 var squareX = 300;
 var squareY = 30;
@@ -210,8 +236,8 @@ function updatelongRectTop(){
 function updateUserShape(e){
     userCircle.userX = (e.clientX/6.3);
     userCircle.userY = (e.clientY/6.3);
-    console.log(e.clientX);
-    console.log(e.clientY);
+    // console.log(e.clientX);
+    // console.log(e.clientY);
     
 }
 
@@ -221,40 +247,40 @@ function collisionDectection(){
     var distance = Math.sqrt(dx * dx + dy * dy);
 
     if (distance < bigCircle.radius + userCircle.radius) {
-        // alert("game over. Your score: "+ score);
         userCircle.color = "yellow";
+        // gameOver();
+        
     }
     else if(userCircle.userX < rectangle.rectX + (rectangle.rectWidth + 5) &&
         userCircle.userX + (rectangle.rectWidth - 5) > rectangle.rectX &&
         userCircle.userY < rectangle.rectY + (rectangle.rectHeight + 3) &&
         userCircle.userY + (rectangle.rectHeight - 5) > rectangle.rectY) {
-        // alert("game over. Your score: "+ score);
         userCircle.color = "yellow";
+        // gameOver();
     }
 
     else if(userCircle.userX < rectangle2.rectX + (rectangle2.rectWidth + 5) &&
         userCircle.userX + (rectangle2.rectWidth - 5) > rectangle2.rectX &&
         userCircle.userY < rectangle2.rectY + (rectangle2.rectHeight + 3) &&
         userCircle.userY + (rectangle2.rectHeight - 5) > rectangle2.rectY) {
-        // alert("game over. Your score: "+ score);
-        userCircle.color = "yellow";
+            userCircle.color = "yellow";
+        // gameOver();
     }
 
     else if(userCircle.userX < rectangle3.rectX + (rectangle3.rectWidth + 5) &&
     userCircle.userX + (rectangle3.rectWidth - 5) > rectangle3.rectX &&
     userCircle.userY < rectangle3.rectY + (rectangle3.rectHeight + 3) &&
     userCircle.userY + (rectangle3.rectHeight - 5) > rectangle3.rectY) {
-        // alert("game over. Your score: "+ score);
         userCircle.color = "yellow";
-
+        // gameOver();
     }
 
     else if(userCircle.userX < rectangle4.rectX + (rectangle4.rectWidth + 5) &&
     userCircle.userX + (rectangle4.rectWidth - 5) > rectangle4.rectX &&
     userCircle.userY < rectangle4.rectY + (rectangle4.rectHeight + 3) &&
     userCircle.userY + (rectangle4.rectHeight - 5) > rectangle4.rectY) {
-        // alert("game over. Your score: "+ score);
         userCircle.color = "yellow";
+        // gameOver();;
 
     }   
 
@@ -262,8 +288,8 @@ function collisionDectection(){
     userCircle.userX + (rectangle5.rectWidth - 5) > rectangle5.rectX &&
     userCircle.userY < rectangle5.rectY + (rectangle5.rectHeight + 3) &&
     userCircle.userY + (rectangle5.rectHeight - 5) > rectangle5.rectY) {
-        // alert("game over. Your score: "+ score);
         userCircle.color = "yellow";
+        // gameOver();
 
     }
     
@@ -271,8 +297,8 @@ function collisionDectection(){
     userCircle.userX + (longRect.rectWidth - 96) > longRect.rectX &&
     userCircle.userY < longRect.rectY + longRect.rectHeight &&
     userCircle.userY + longRect.rectHeight > (longRect.rectY + 15)) {
-        // alert("game over. Your score: "+ score);
         userCircle.color = "yellow";
+        // gameOver();
 
     }
 
@@ -280,8 +306,8 @@ function collisionDectection(){
     userCircle.userX + 5 > tallRect.x &&
     userCircle.userY < tallRect.y + 140 &&
     userCircle.userY + 3 > tallRect.y) {
-        // alert("game over. Your score: "+ score);
         userCircle.color = "yellow";
+        // gameOver();
 
     }
 
@@ -289,24 +315,24 @@ function collisionDectection(){
         userCircle.userX + 0 > squareX &&
         userCircle.userY < squareY + 55 &&
         userCircle.userY + 5 > squareY) {
-            // alert("game over. Your score: "+ score);
             userCircle.color = "yellow";
+            // gameOver();
     }
 
     else if(userCircle.userX < longRectBottomX + 55 &&
         userCircle.userX + 5 > longRectBottomX &&
         userCircle.userY < longRectBottomY + 55 &&
         userCircle.userY + 5 > longRectBottomY) {
-            // alert("game over. Your score: "+ score);
             userCircle.color = "yellow";
+            // gameOver();
     }
 
     else if(userCircle.userX < longRectTopX + 55 &&
         userCircle.userX + 5 > longRectTopX &&
         userCircle.userY < longRectTopY + 25 &&
         userCircle.userY + 5 > longRectTopY) {
-            // alert("game over. Your score: "+ score);
             userCircle.color = "yellow";
+            // gameOver();
     }
 
     else {
@@ -317,45 +343,46 @@ function collisionDectection(){
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+
+    if(score >= 250) {
     bigCircle.drawBall();
     rectangle.drawRect();
     rectangle2.drawRect();
-
-    // if(score >= 250) {
     rectangle3.drawRect();
     rectangle4.drawRect();
     rectangle3.updateRect();
     rectangle4.updateRect();
     
 
-    // }
+    }
 
-    // if(score >= 500) {
+    if(score >= 500) {
         rectangle5.drawRect();
         rectangle5.updateRect();
 
         
 
-    // }
+    }
 
-    // if(score >= 750){
+    if(score >= 750){
         longRect.drawRect();
         longRect.updateRect();
-    // }
+    }
 
-    // if(score >= 1000) {
+    if(score >= 1000) {
         tallRect.drawTallRect();
         drawSquare();
         tallRect.updateTallRect();
         updateSquare();
-    // }
+    }
 
-    // if(score > 1250) {
+    if(score > 1250) {
         longRectBottom();
         longRectTop();
         updatelongRectBottom();
         updatelongRectTop();
-    // }
+    }
 
     
     userCircle.drawUserShape();
@@ -368,12 +395,12 @@ function draw() {
     canvas.addEventListener("mousemove", updateUserShape, false);
 
     collisionDectection();
-    // drawScore();
+    drawScore();
 
     
 }
 
-console.log(canvas.width);
-setInterval(draw, 25);
+// console.log(canvas.width);
+// setInterval(draw, 25);
 
 
