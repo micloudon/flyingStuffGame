@@ -1,4 +1,5 @@
 const canvas = document.getElementById("canvas");
+const startBtn = document.querySelector('#start-game');
 
 // improve resolution
 canvas.width = 3840;
@@ -7,14 +8,19 @@ const ctx = canvas.getContext("2d");
 ctx.fillStyle = "white";
 ctx.scale(13,13);
 
-var score = 1;
-const startBtn = document.querySelector('#start-game')
 
+// Global variables
+var score = 1;
+var speed = 1;
+var intervalTimer = 30;
 var mx = canvas.width / canvas.clientWidth;
 var my = canvas.height / canvas.clientHeight;
+var angle = 0;
+var interval = setInterval(draw, intervalTimer);
+var myobj = document.getElementById("overlay");
 
-console.log(mx);
-console.log(my);
+
+// Game flow functions
 
 startBtn.addEventListener('click', () => {
 
@@ -27,16 +33,13 @@ startBtn.addEventListener('click', () => {
     }
 })
 
-var intervalTimer = 25;
 
-var interval = setInterval(draw, intervalTimer);
-// clearInterval(interval);
-var myobj = document.getElementById("overlay");
+
 
 function startGame() {
     interval
     myobj.style.width = "0%";
-    // score = 1;
+
   }
 
   function gameOver() {
@@ -52,17 +55,6 @@ function startGame() {
     
 }
 
-var angle = 0;
-
-
-var squareX = 500;
-var squareY = 30;
-
-var longRectBottomX = 500;
-var longRectBottomY = 120;
-
-var longRectTopX = -60;
-var longRectTopY = 5;
 
 function drawScore() {
     ctx.font = "16px Arial";
@@ -72,14 +64,15 @@ function drawScore() {
    }
 
 
+//    Shapes
 const userCircle = {
-    userX: 100, 
-    userY: 50, 
+    x: 100, 
+    y: 50, 
     radius: 4,
     color: "red",
-    drawUserShape: function() {
+    draw: function() {
         ctx.beginPath(),
-        ctx.arc(this.userX, this.userY, this.radius, 0, Math.PI*2);
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
         ctx.fillStyle = this.color;
         ctx.strokeStyle = "red";
         ctx.stroke();
@@ -96,7 +89,7 @@ const tallRect = {
     y: -70,
     width: 10,
     length: 135,
-    drawTallRect: function() {
+    draw: function() {
         ctx.beginPath();
         ctx.rect(this.x, this.y, 10, 135);
         ctx.fillStyle = "#0095DD";
@@ -107,9 +100,9 @@ const tallRect = {
     
     },
 
-    updateTallRect: function(){
-        this.x -= (angle + 0.75);
-        this.y += 0.5;
+    update: function(){
+        this.x -= (1.5 * speed);
+        this.y += (1 * speed);
     
     
         if(this.y == 200 || this.x == 0) {
@@ -120,13 +113,14 @@ const tallRect = {
 
 }
 
-const bigCircle = {
-    bCirX: 60,
-    bCirY: 300,
-    radius: 60,
-    drawBall: function() {
+const square = {
+    x: 500,
+    y: 30,
+    width: 50,
+    length: 50,
+    draw: function() {
         ctx.beginPath();
-        ctx.arc(this.bCirX, this.bCirY, this.radius, 0, Math.PI*2);
+        ctx.rect(this.x, this.y, this.width, this.length);
         ctx.fillStyle = "#0095DD";
         ctx.strokeStyle = "black";
         ctx.stroke();
@@ -135,131 +129,143 @@ const bigCircle = {
     
     },
 
-    updateBall: function(){
-        this.bCirX -= angle;
-        this.bCirY -= 0.25;
+    update: function(){
+        this.x -= (1.5 * speed)
+        if(this.x <= -50) {
+            this.x += 350;
+        }
+    }
+}
+
+const longRectBottom = {
+    x: 500,
+    y: 120,
+    width: 50,
+    length: 30,
+    draw: function() {
+        ctx.beginPath();
+        ctx.rect(this.x, this.y, this.width, this.length);
+        ctx.fillStyle = "#0095DD";
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+        ctx.fill();
+        ctx.closePath();
     
-        if(this.bCirY <= -70) {
-            this.bCirY += 270;
+    },
+
+    update: function(){
+        this.x -= (1.2 * speed);
+
+
+    if(this.x <= -50) {
+        this.x += 350;
+        }
+    }
+}
+
+const longRectTop = {
+    x: -60,
+    y: 5,
+    width: 50,
+    length: 30,
+    draw: function() {
+        ctx.beginPath();
+        ctx.rect(this.x, this.y, this.width, this.length);
+        ctx.fillStyle = "#0095DD";
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+        ctx.fill();
+        ctx.closePath();
+    
+    },
+
+    update: function(){
+        this.x += (0.8 * speed);
+    if(this.x >= 350) {
+        this.x -= 380;
+        }
+    }
+}
+
+
+const bigCircle = {
+    x: 60,
+    y: 300,
+    radius: 60,
+    draw: function() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+        ctx.fillStyle = "#0095DD";
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+        ctx.fill();
+        ctx.closePath();
+    
+    },
+
+    update: function(){
+        this.x -= angle;
+        this.y -= 0.5 * speed;
+        
+    
+        if(this.y <= -70) {
+            this.y += 270;
         }
     }
 
 }
 
 class Rectangle {
-    constructor(rectX, rectY, rectWidth, rectHeight, fallSpeed){
-        this.rectX = rectX;
-        this.rectY = rectY;
-        this.rectWidth = rectWidth;
-        this.rectHeight = rectHeight;
+    constructor(x, y, width, height, fallSpeed){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
         this.fallSpeed = fallSpeed;
     }
 
-    drawRect() {
+    draw() {
         ctx.beginPath();
-        ctx.rect(this.rectX, this.rectY, this.rectWidth, this.rectHeight);
+        ctx.rect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = "#0095DD";
         ctx.strokeStyle = "black";
         ctx.stroke();
         ctx.fill();
         ctx.closePath();
             
-        this.updateRect();
-
         }
 
-        updateRect(){
-            this.rectX -= angle;
-            this.rectY += this.fallSpeed;
+        update(){
+            this.x -= angle;
+            this.y += this.fallSpeed;
                 
-            if(this.rectY >= 200) {
-            this.rectY -= 250;
+            if(this.y >= 200) {
+            this.y -= 250;
             }
         }
 }
 
 
 
-const rectangle = new Rectangle(100, -15, 10, 10, 1.5);
-const rectangle2 = new Rectangle(125, -15, 10, 10, 2);
-const rectangle3 = new Rectangle(150, -15, 10, 10, 2.25);
-const rectangle4 = new Rectangle(175, -15, 10, 10, 2.5);
-const rectangle5 = new Rectangle(195, -15, 10, 10, 2.75);
-const longRect = new Rectangle(195, -25, 100, 20, 0.35);
+const rectangle = new Rectangle(100, -15, 10, 10, (2.5 * speed));
+const rectangle2 = new Rectangle(125, -15, 10, 10, (3 * speed));
+const rectangle3 = new Rectangle(150, -15, 10, 10, (3.25 * speed));
+const rectangle4 = new Rectangle(175, -15, 10, 10, (3.5 * speed));
+const rectangle5 = new Rectangle(195, -15, 10, 10, (4 * speed));
+const longRect = new Rectangle(195, -25, 100, 20, (0.35 * speed));
 
-
-// big square
-function drawSquare() {
-    ctx.beginPath();
-    ctx.rect(squareX, squareY, 50, 50);
-    ctx.fillStyle = "#0095DD";
-    ctx.strokeStyle = "black";
-    ctx.stroke();
-    ctx.fill();
-    ctx.closePath();
-
-}
-
-function longRectBottom() {
-    ctx.beginPath();
-    ctx.rect(longRectBottomX, longRectBottomY, 50, 30);
-    ctx.fillStyle = "#0095DD";
-    ctx.strokeStyle = "black";
-    ctx.stroke();
-    ctx.fill();
-    ctx.closePath();
-
-}
-
-function longRectTop() {
-    ctx.beginPath();
-    ctx.rect(longRectTopX, longRectTopY, 50, 20);
-    ctx.fillStyle = "#0095DD";
-    ctx.strokeStyle = "black";
-    ctx.stroke();
-    ctx.fill();
-    ctx.closePath();
-
-}
-
-
-function updateSquare(){
-    squareX -= 1
-
-
-    if(squareX <= -50) {
-        squareX += 350;
-    }
-}
-
-function updatelongRectBottom(){
-    longRectBottomX -= 0.66;
-
-
-    if(longRectBottomX <= -50) {
-        longRectBottomX += 350;
-    }
-}
-
-function updatelongRectTop(){
-    longRectTopX += 0.4;
-
-
-    if(longRectTopX >= 350) {
-        longRectTopX -= 380;
-    }
-}
 
 function updateUserShape(e){
 
-    userCircle.userX = (e.clientX/13) * mx;
-    userCircle.userY = (e.clientY/13) * my;
+    userCircle.x = (e.clientX/13) * mx;
+    userCircle.y = (e.clientY/13) * my;
     
 }
 
+// Game dynamics
 function collisionDectection(){
-    var dx = bigCircle.bCirX - userCircle.userX;
-    var dy = bigCircle.bCirY - userCircle.userY;
+    var dx = bigCircle.x - userCircle.x;
+    var dy = bigCircle.y - userCircle.y;
     var distance = Math.sqrt(dx * dx + dy * dy);
 
     if (distance < bigCircle.radius + userCircle.radius) {
@@ -267,86 +273,86 @@ function collisionDectection(){
         gameOver();
         
     }
-    else if(userCircle.userX < rectangle.rectX + (rectangle.rectWidth + 5) &&
-        userCircle.userX + (rectangle.rectWidth - 5) > rectangle.rectX &&
-        userCircle.userY < rectangle.rectY + (rectangle.rectHeight + 3) &&
-        userCircle.userY + (rectangle.rectHeight - 5) > rectangle.rectY) {
+    else if(userCircle.x < rectangle.x + (rectangle.width + 5) &&
+        userCircle.x + (rectangle.width - 5) > rectangle.x &&
+        userCircle.y < rectangle.y + (rectangle.height + 3) &&
+        userCircle.y + (rectangle.height - 5) > rectangle.y) {
         // userCircle.color = "yellow";
         gameOver();
     }
 
-    else if(userCircle.userX < rectangle2.rectX + (rectangle2.rectWidth + 5) &&
-        userCircle.userX + (rectangle2.rectWidth - 5) > rectangle2.rectX &&
-        userCircle.userY < rectangle2.rectY + (rectangle2.rectHeight + 3) &&
-        userCircle.userY + (rectangle2.rectHeight - 5) > rectangle2.rectY) {
+    else if(userCircle.x < rectangle2.x + (rectangle2.width + 5) &&
+        userCircle.x + (rectangle2.width - 5) > rectangle2.x &&
+        userCircle.y < rectangle2.y + (rectangle2.height + 3) &&
+        userCircle.y + (rectangle2.height - 5) > rectangle2.y) {
             // userCircle.color = "yellow";
         gameOver();
     }
 
-    else if(userCircle.userX < rectangle3.rectX + (rectangle3.rectWidth + 5) &&
-    userCircle.userX + (rectangle3.rectWidth - 5) > rectangle3.rectX &&
-    userCircle.userY < rectangle3.rectY + (rectangle3.rectHeight + 3) &&
-    userCircle.userY + (rectangle3.rectHeight - 5) > rectangle3.rectY) {
+    else if(userCircle.x < rectangle3.x + (rectangle3.width + 5) &&
+    userCircle.x + (rectangle3.width - 5) > rectangle3.x &&
+    userCircle.y < rectangle3.y + (rectangle3.height + 3) &&
+    userCircle.y + (rectangle3.height - 5) > rectangle3.y) {
         // userCircle.color = "yellow";
         gameOver();
     }
 
-    else if(userCircle.userX < rectangle4.rectX + (rectangle4.rectWidth + 5) &&
-    userCircle.userX + (rectangle4.rectWidth - 5) > rectangle4.rectX &&
-    userCircle.userY < rectangle4.rectY + (rectangle4.rectHeight + 3) &&
-    userCircle.userY + (rectangle4.rectHeight - 5) > rectangle4.rectY) {
+    else if(userCircle.x < rectangle4.x + (rectangle4.width + 5) &&
+    userCircle.x + (rectangle4.width - 5) > rectangle4.x &&
+    userCircle.y < rectangle4.y + (rectangle4.height + 3) &&
+    userCircle.y + (rectangle4.height - 5) > rectangle4.y) {
         // userCircle.color = "yellow";
         gameOver();
 
     }   
 
-    else if(userCircle.userX < rectangle5.rectX + (rectangle5.rectWidth + 5) &&
-    userCircle.userX + (rectangle5.rectWidth - 5) > rectangle5.rectX &&
-    userCircle.userY < rectangle5.rectY + (rectangle5.rectHeight + 3) &&
-    userCircle.userY + (rectangle5.rectHeight - 5) > rectangle5.rectY) {
+    else if(userCircle.x < rectangle5.x + (rectangle5.width + 5) &&
+    userCircle.x + (rectangle5.width - 5) > rectangle5.x &&
+    userCircle.y < rectangle5.y + (rectangle5.height + 3) &&
+    userCircle.y + (rectangle5.height - 5) > rectangle5.y) {
         // userCircle.color = "yellow";
         gameOver();
 
     }
     
-    else if(userCircle.userX < longRect.rectX + (longRect.rectWidth + 5) &&
-    userCircle.userX + (longRect.rectWidth - 96) > longRect.rectX &&
-    userCircle.userY < longRect.rectY + longRect.rectHeight &&
-    userCircle.userY + longRect.rectHeight > (longRect.rectY + 15)) {
+    else if(userCircle.x < longRect.x + (longRect.width + 5) &&
+    userCircle.x + (longRect.width - 96) > longRect.x &&
+    userCircle.y < longRect.y + longRect.height &&
+    userCircle.y + longRect.height > (longRect.y + 15)) {
         // userCircle.color = "yellow";
         gameOver();
 
     }
 
-    else if(userCircle.userX < tallRect.x + 14 &&
-    userCircle.userX + 5 > tallRect.x &&
-    userCircle.userY < tallRect.y + 140 &&
-    userCircle.userY + 3 > tallRect.y) {
+    else if(userCircle.x < tallRect.x + 14 &&
+    userCircle.x + 5 > tallRect.x &&
+    userCircle.y < tallRect.y + 140 &&
+    userCircle.y + 3 > tallRect.y) {
         // userCircle.color = "yellow";
         gameOver();
 
     }
 
-    else if(userCircle.userX < squareX + 50 &&
-        userCircle.userX + 0 > squareX &&
-        userCircle.userY < squareY + 55 &&
-        userCircle.userY + 5 > squareY) {
+    else if(userCircle.x < square.x + square.width &&
+        userCircle.x + 0 > square.x &&
+        userCircle.y < square.y + (square.width + 5) &&
+        userCircle.y + 5 > square.y) {
             // userCircle.color = "yellow";
             gameOver();
     }
 
-    else if(userCircle.userX < longRectBottomX + 55 &&
-        userCircle.userX + 5 > longRectBottomX &&
-        userCircle.userY < longRectBottomY + 55 &&
-        userCircle.userY + 5 > longRectBottomY) {
+    else if(userCircle.x < longRectBottom.x + 55 &&
+        userCircle.x + 4 > longRectBottom.x &&
+        userCircle.y < longRectBottom.y + 55 &&
+        userCircle.y + 5 > longRectBottom.y) {
             // userCircle.color = "yellow";
             gameOver();
     }
 
-    else if(userCircle.userX < longRectTopX + 55 &&
-        userCircle.userX + 5 > longRectTopX &&
-        userCircle.userY < longRectTopY + 25 &&
-        userCircle.userY + 5 > longRectTopY) {
+    else if(userCircle.x < longRectTop.x + 55 &&
+        userCircle.x + 5 > longRectTop.x &&
+        userCircle.y < longRectTop.y + 25 &&
+        userCircle.y + 5 > longRectTop.y) {
             // userCircle.color = "yellow";
             gameOver();
     }
@@ -360,53 +366,74 @@ function collisionDectection(){
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    bigCircle.drawBall();
-    rectangle.drawRect();
-    rectangle2.drawRect();
+    bigCircle.draw();
+    rectangle.draw();
+    rectangle2.draw();
+
+    userCircle.draw();
+
+
+    bigCircle.update();
+    rectangle.update();
+    rectangle2.update();
 
     if(score >= 250) {
+    intervalTimer -= 3;
+    speed = 1.2;
+    rectangle3.draw();
+    rectangle4.draw();
+    rectangle3.update();
+    rectangle4.update();
     
-    rectangle3.drawRect();
-    rectangle4.drawRect();
-    rectangle3.updateRect();
-    rectangle4.updateRect();
-    
-
     }
 
     if(score >= 500) {
-        rectangle5.drawRect();
-        rectangle5.updateRect();
+         intervalTimer -= 3;
+         speed += 0.3;
+         rectangle5.draw();
+         rectangle5.update();
+         longRect.draw();
+         longRect.update();
+     }
 
+     if(score >= 750){
+         intervalTimer -= 3;
+         speed += 0.3;
+         tallRect.draw();
+         tallRect.update();
+         square.draw();
+         square.update();
         
+     }
 
-    }
+     if(score >= 1000) {
+         intervalTimer -= 3;
+         longRectBottom.draw();
+         longRectTop.draw();
+         longRectBottom.update();
+         longRectTop.update();
+        
+     }
 
-    if(score >= 750){
-        longRect.drawRect();
-        longRect.updateRect();
-    }
+     if(score > 1250) {
+         intervalTimer -= 3;
+         speed += 0.3;
+        
+     }
 
-    if(score >= 1000) {
-        tallRect.drawTallRect();
-        drawSquare();
-        tallRect.updateTallRect();
-        updateSquare();
-    }
+     if(score > 1500) {
+         speed += 0.3;
+         intervalTimer -= 3;
+     }
 
-    if(score > 1250) {
-        longRectBottom();
-        longRectTop();
-        updatelongRectBottom();
-        updatelongRectTop();
-    }
+     if(score > 1750) {
+         speed += 0.4;
+     }
 
+     if(score > 2000) {
+         speed += 0.4;
+     }
     
-    userCircle.drawUserShape();
-
-    bigCircle.updateBall();
-    rectangle.updateRect();
-    rectangle2.updateRect();
     
     
     canvas.addEventListener("mousemove", updateUserShape, false);
@@ -417,7 +444,5 @@ function draw() {
     
 }
 
-// console.log(canvas.width);
-// setInterval(draw, 25);
 
 
