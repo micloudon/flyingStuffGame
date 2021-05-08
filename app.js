@@ -11,7 +11,14 @@ var score = 1;
 const startBtn = document.querySelector('#start-game')
 
 startBtn.addEventListener('click', () => {
-    location.replace("index.html")
+
+    if(score < 100) {
+        startGame();
+    }
+
+    else {
+        location.reload();
+    }
 })
 
 var intervalTimer = 25;
@@ -27,24 +34,28 @@ function startGame() {
   }
 
   function gameOver() {
-    clearInterval(interval);
+
+    if(score > 100) {
+     clearInterval(interval);
     myobj.style.width = "100%";
     // userCircle.color = "yellow";
     document.getElementById('game-over-msg').innerHTML = "GameOver";
-    document.getElementById('display-score').innerHTML = score;
-    document.getElementById('start-game').innerHTML = "New Game";
+    document.getElementById('display-score').innerHTML = "Your Score: " + (score + 1);
+    document.getElementById('start-game').innerHTML = "New Game";   
+    }
+    
 }
 
 var angle = 0;
 
 
-var squareX = 300;
+var squareX = 500;
 var squareY = 30;
 
-var longRectBottomX = 300;
+var longRectBottomX = 500;
 var longRectBottomY = 120;
 
-var longRectTopX = -30;
+var longRectTopX = -60;
 var longRectTopY = 5;
 
 function drawScore() {
@@ -75,8 +86,8 @@ const userCircle = {
 };
 
 const tallRect = {
-    x: 280,
-    y: -50,
+    x: 400,
+    y: -70,
     width: 10,
     length: 135,
     drawTallRect: function() {
@@ -105,7 +116,7 @@ const tallRect = {
 
 const bigCircle = {
     bCirX: 60,
-    bCirY: 250,
+    bCirY: 300,
     radius: 60,
     drawBall: function() {
         ctx.beginPath();
@@ -163,12 +174,12 @@ class Rectangle {
 
 
 
-const rectangle = new Rectangle(100, 0, 10, 10, 1.5);
-const rectangle2 = new Rectangle(125, 0, 10, 10, 2);
-const rectangle3 = new Rectangle(150, 0, 10, 10, 2.25);
-const rectangle4 = new Rectangle(175, 0, 10, 10, 2.5);
-const rectangle5 = new Rectangle(195, 0, 10, 10, 2.75);
-const longRect = new Rectangle(195, 0, 100, 20, 0.35);
+const rectangle = new Rectangle(100, -15, 10, 10, 1.5);
+const rectangle2 = new Rectangle(125, -15, 10, 10, 2);
+const rectangle3 = new Rectangle(150, -15, 10, 10, 2.25);
+const rectangle4 = new Rectangle(175, -15, 10, 10, 2.5);
+const rectangle5 = new Rectangle(195, -15, 10, 10, 2.75);
+const longRect = new Rectangle(195, -25, 100, 20, 0.35);
 
 
 // big square
@@ -247,40 +258,40 @@ function collisionDectection(){
     var distance = Math.sqrt(dx * dx + dy * dy);
 
     if (distance < bigCircle.radius + userCircle.radius) {
-        userCircle.color = "yellow";
-        // gameOver();
+        // userCircle.color = "yellow";
+        gameOver();
         
     }
     else if(userCircle.userX < rectangle.rectX + (rectangle.rectWidth + 5) &&
         userCircle.userX + (rectangle.rectWidth - 5) > rectangle.rectX &&
         userCircle.userY < rectangle.rectY + (rectangle.rectHeight + 3) &&
         userCircle.userY + (rectangle.rectHeight - 5) > rectangle.rectY) {
-        userCircle.color = "yellow";
-        // gameOver();
+        // userCircle.color = "yellow";
+        gameOver();
     }
 
     else if(userCircle.userX < rectangle2.rectX + (rectangle2.rectWidth + 5) &&
         userCircle.userX + (rectangle2.rectWidth - 5) > rectangle2.rectX &&
         userCircle.userY < rectangle2.rectY + (rectangle2.rectHeight + 3) &&
         userCircle.userY + (rectangle2.rectHeight - 5) > rectangle2.rectY) {
-            userCircle.color = "yellow";
-        // gameOver();
+            // userCircle.color = "yellow";
+        gameOver();
     }
 
     else if(userCircle.userX < rectangle3.rectX + (rectangle3.rectWidth + 5) &&
     userCircle.userX + (rectangle3.rectWidth - 5) > rectangle3.rectX &&
     userCircle.userY < rectangle3.rectY + (rectangle3.rectHeight + 3) &&
     userCircle.userY + (rectangle3.rectHeight - 5) > rectangle3.rectY) {
-        userCircle.color = "yellow";
-        // gameOver();
+        // userCircle.color = "yellow";
+        gameOver();
     }
 
     else if(userCircle.userX < rectangle4.rectX + (rectangle4.rectWidth + 5) &&
     userCircle.userX + (rectangle4.rectWidth - 5) > rectangle4.rectX &&
     userCircle.userY < rectangle4.rectY + (rectangle4.rectHeight + 3) &&
     userCircle.userY + (rectangle4.rectHeight - 5) > rectangle4.rectY) {
-        userCircle.color = "yellow";
-        // gameOver();;
+        // userCircle.color = "yellow";
+        gameOver();
 
     }   
 
@@ -288,8 +299,8 @@ function collisionDectection(){
     userCircle.userX + (rectangle5.rectWidth - 5) > rectangle5.rectX &&
     userCircle.userY < rectangle5.rectY + (rectangle5.rectHeight + 3) &&
     userCircle.userY + (rectangle5.rectHeight - 5) > rectangle5.rectY) {
-        userCircle.color = "yellow";
-        // gameOver();
+        // userCircle.color = "yellow";
+        gameOver();
 
     }
     
@@ -297,8 +308,8 @@ function collisionDectection(){
     userCircle.userX + (longRect.rectWidth - 96) > longRect.rectX &&
     userCircle.userY < longRect.rectY + longRect.rectHeight &&
     userCircle.userY + longRect.rectHeight > (longRect.rectY + 15)) {
-        userCircle.color = "yellow";
-        // gameOver();
+        // userCircle.color = "yellow";
+        gameOver();
 
     }
 
@@ -306,8 +317,8 @@ function collisionDectection(){
     userCircle.userX + 5 > tallRect.x &&
     userCircle.userY < tallRect.y + 140 &&
     userCircle.userY + 3 > tallRect.y) {
-        userCircle.color = "yellow";
-        // gameOver();
+        // userCircle.color = "yellow";
+        gameOver();
 
     }
 
@@ -315,24 +326,24 @@ function collisionDectection(){
         userCircle.userX + 0 > squareX &&
         userCircle.userY < squareY + 55 &&
         userCircle.userY + 5 > squareY) {
-            userCircle.color = "yellow";
-            // gameOver();
+            // userCircle.color = "yellow";
+            gameOver();
     }
 
     else if(userCircle.userX < longRectBottomX + 55 &&
         userCircle.userX + 5 > longRectBottomX &&
         userCircle.userY < longRectBottomY + 55 &&
         userCircle.userY + 5 > longRectBottomY) {
-            userCircle.color = "yellow";
-            // gameOver();
+            // userCircle.color = "yellow";
+            gameOver();
     }
 
     else if(userCircle.userX < longRectTopX + 55 &&
         userCircle.userX + 5 > longRectTopX &&
         userCircle.userY < longRectTopY + 25 &&
         userCircle.userY + 5 > longRectTopY) {
-            userCircle.color = "yellow";
-            // gameOver();
+            // userCircle.color = "yellow";
+            gameOver();
     }
 
     else {
@@ -344,11 +355,12 @@ function collisionDectection(){
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-
-    if(score >= 250) {
     bigCircle.drawBall();
     rectangle.drawRect();
     rectangle2.drawRect();
+
+    if(score >= 250) {
+    
     rectangle3.drawRect();
     rectangle4.drawRect();
     rectangle3.updateRect();
