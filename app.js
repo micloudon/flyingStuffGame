@@ -1,6 +1,7 @@
 const canvas = document.getElementById("canvas");
 const startBtn = document.querySelector('#start-game');
 
+
 // improve resolution
 canvas.width = 3840;
 canvas.height = 2000;
@@ -47,7 +48,6 @@ function startGame() {
     if(score > 100) {
      clearInterval(interval);
     myobj.style.width = "100%";
-    // userCircle.color = "yellow";
     document.getElementById('game-over-msg').innerHTML = "GameOver";
     document.getElementById('display-score').innerHTML = "Your Score: " + (score + 1);
     document.getElementById('start-game').innerHTML = "New Game";   
@@ -251,7 +251,10 @@ const rectangle = new Rectangle(100, -15, 10, 10, (2.5 * speed));
 const rectangle2 = new Rectangle(125, -15, 10, 10, (3 * speed));
 const rectangle3 = new Rectangle(150, -15, 10, 10, (3.25 * speed));
 const rectangle4 = new Rectangle(175, -15, 10, 10, (3.5 * speed));
-const rectangle5 = new Rectangle(195, -15, 10, 10, (4 * speed));
+const rectangle5 = new Rectangle(188, -15, 10, 10, (4 * speed));
+const rectangle6 = new Rectangle(112, -15, 10, 10, (1.8 * speed));
+const rectangle7 = new Rectangle(137, -15, 10, 10, (2.2 * speed));
+const rectangle8 = new Rectangle(160, -15, 10, 10, (2.8 * speed));
 const longRect = new Rectangle(195, -25, 100, 20, (0.35 * speed));
 
 
@@ -310,6 +313,33 @@ function collisionDectection(){
     userCircle.x + (rectangle5.width - 5) > rectangle5.x &&
     userCircle.y < rectangle5.y + (rectangle5.height + 3) &&
     userCircle.y + (rectangle5.height - 5) > rectangle5.y) {
+        // userCircle.color = "yellow";
+        gameOver();
+
+    }
+
+    else if(userCircle.x < rectangle6.x + (rectangle6.width + 5) &&
+    userCircle.x + (rectangle6.width - 5) > rectangle6.x &&
+    userCircle.y < rectangle6.y + (rectangle6.height + 3) &&
+    userCircle.y + (rectangle6.height - 5) > rectangle6.y) {
+        // userCircle.color = "yellow";
+        gameOver();
+
+    }
+
+    else if(userCircle.x < rectangle7.x + (rectangle7.width + 5) &&
+    userCircle.x + (rectangle7.width - 5) > rectangle7.x &&
+    userCircle.y < rectangle7.y + (rectangle7.height + 3) &&
+    userCircle.y + (rectangle7.height - 5) > rectangle7.y) {
+        // userCircle.color = "yellow";
+        gameOver();
+
+    }
+
+    else if(userCircle.x < rectangle8.x + (rectangle8.width + 5) &&
+    userCircle.x + (rectangle8.width - 5) > rectangle8.x &&
+    userCircle.y < rectangle8.y + (rectangle8.height + 3) &&
+    userCircle.y + (rectangle8.height - 5) > rectangle8.y) {
         // userCircle.color = "yellow";
         gameOver();
 
@@ -418,12 +448,18 @@ function draw() {
      if(score > 1250) {
          intervalTimer -= 3;
          speed += 0.3;
+         rectangle6.draw();
+         rectangle6.update();
+         rectangle7.draw();
+         rectangle7.update();
         
      }
 
      if(score > 1500) {
          speed += 0.3;
          intervalTimer -= 3;
+         rectangle8.update();
+         rectangle8.draw();
      }
 
      if(score > 1750) {
@@ -434,7 +470,7 @@ function draw() {
          speed += 0.4;
      }
     
-    
+     
     
     canvas.addEventListener("mousemove", updateUserShape, false);
 
