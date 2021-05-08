@@ -10,6 +10,12 @@ ctx.scale(13,13);
 var score = 1;
 const startBtn = document.querySelector('#start-game')
 
+var mx = canvas.width / canvas.clientWidth;
+var my = canvas.height / canvas.clientHeight;
+
+console.log(mx);
+console.log(my);
+
 startBtn.addEventListener('click', () => {
 
     if(score < 100) {
@@ -245,10 +251,9 @@ function updatelongRectTop(){
 }
 
 function updateUserShape(e){
-    userCircle.userX = (e.clientX/6.3);
-    userCircle.userY = (e.clientY/6.3);
-    // console.log(e.clientX);
-    // console.log(e.clientY);
+
+    userCircle.userX = (e.clientX/13) * mx;
+    userCircle.userY = (e.clientY/13) * my;
     
 }
 
