@@ -255,6 +255,9 @@ const rectangle5 = new Rectangle(188, -15, 10, 10, (4 * speed));
 const rectangle6 = new Rectangle(112, -15, 10, 10, (1.8 * speed));
 const rectangle7 = new Rectangle(137, -15, 10, 10, (2.2 * speed));
 const rectangle8 = new Rectangle(160, -15, 10, 10, (2.8 * speed));
+const rectangle9 = new Rectangle(208, -15, 10, 10, (2 * speed));
+const rectangle10 = new Rectangle(228, -15, 10, 10, (2.5 * speed));
+const rectangle11 = new Rectangle(248, -15, 10, 10, (2.3 * speed));
 const longRect = new Rectangle(195, -25, 100, 20, (0.35 * speed));
 
 
@@ -340,6 +343,33 @@ function collisionDectection(){
     userCircle.x + (rectangle8.width - 5) > rectangle8.x &&
     userCircle.y < rectangle8.y + (rectangle8.height + 3) &&
     userCircle.y + (rectangle8.height - 5) > rectangle8.y) {
+        // userCircle.color = "yellow";
+        gameOver();
+
+    }
+
+    else if(userCircle.x < rectangle9.x + (rectangle9.width + 5) &&
+    userCircle.x + (rectangle9.width - 5) > rectangle9.x &&
+    userCircle.y < rectangle9.y + (rectangle9.height + 3) &&
+    userCircle.y + (rectangle9.height - 5) > rectangle9.y) {
+        // userCircle.color = "yellow";
+        gameOver();
+
+    }
+
+    else if(userCircle.x < rectangle10.x + (rectangle10.width + 5) &&
+    userCircle.x + (rectangle10.width - 5) > rectangle10.x &&
+    userCircle.y < rectangle10.y + (rectangle10.height + 3) &&
+    userCircle.y + (rectangle10.height - 5) > rectangle10.y) {
+        // userCircle.color = "yellow";
+        gameOver();
+
+    }
+
+    else if(userCircle.x < rectangle11.x + (rectangle11.width + 5) &&
+    userCircle.x + (rectangle11.width - 5) > rectangle11.x &&
+    userCircle.y < rectangle11.y + (rectangle11.height + 3) &&
+    userCircle.y + (rectangle11.height - 5) > rectangle11.y) {
         // userCircle.color = "yellow";
         gameOver();
 
@@ -460,10 +490,17 @@ function draw() {
          intervalTimer -= 3;
          rectangle8.update();
          rectangle8.draw();
+         rectangle9.update();
+         rectangle9.draw();
+
      }
 
      if(score > 1750) {
          speed += 0.4;
+         rectangle10.update();
+         rectangle10.draw();
+         rectangle11.update();
+         rectangle11.draw();
      }
 
      if(score > 2000) {
