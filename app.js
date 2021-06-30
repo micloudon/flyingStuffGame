@@ -34,6 +34,16 @@ startBtn.addEventListener('click', () => {
     }
 })
 
+startBtn.addEventListener('touchstart', () => {
+
+    if(score < 100) {
+        startGame();
+    }
+
+    else {
+        location.reload();
+    }
+})
 
 
 
@@ -80,6 +90,7 @@ const userCircle = {
         ctx.closePath();
     
         canvas.addEventListener("mousemove", updateUserShape, false);
+        canvas.addEventListener("touchmove", updateUserShape, false);
     }
 
 };
@@ -510,6 +521,7 @@ function draw() {
      
     
     canvas.addEventListener("mousemove", updateUserShape, false);
+    canvas.addEventListener("touchmove", updateUserShape, false);
 
     collisionDectection();
     drawScore();
