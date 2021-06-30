@@ -34,18 +34,6 @@ startBtn.addEventListener('click', () => {
     }
 })
 
-startBtn.addEventListener('touchstart', () => {
-
-    if(score < 100) {
-        startGame();
-    }
-
-    else {
-        location.reload();
-    }
-})
-
-
 
 function startGame() {
     interval
