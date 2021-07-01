@@ -18,7 +18,7 @@ var mx = canvas.width / canvas.clientWidth;
 var my = canvas.height / canvas.clientHeight;
 var angle = 0;
 var interval = setInterval(draw, intervalTimer);
-var myobj = document.getElementById("overlay");
+var gameOverOverlay = document.getElementById("overlay");
 
 
 // Game flow functions
@@ -26,6 +26,7 @@ var myobj = document.getElementById("overlay");
 startBtn.addEventListener('click', () => {
 
     if(score < 100) {
+        location.reload();
         startGame();
     }
 
@@ -37,18 +38,21 @@ startBtn.addEventListener('click', () => {
 
 function startGame() {
     interval
-    myobj.style.width = "0%";
+    gameOverOverlay.style.width = "0%";
+    // setInterval(draw, interval)
 
   }
 
   function gameOver() {
 
     if(score > 100) {
-     clearInterval(interval);
-    myobj.style.width = "100%";
+    clearInterval(interval);
+    gameOverOverlay.style.width = "100%";
     document.getElementById('game-over-msg').innerHTML = "GameOver";
     document.getElementById('display-score').innerHTML = "Your Score: " + (score + 1);
-    document.getElementById('start-game').innerHTML = "New Game";   
+    document.getElementById('start-game').innerHTML = "New Game";  
+    speed = 1;
+    setInterval(drawSample, 30);
     }
     
 }
@@ -515,6 +519,20 @@ function draw() {
     drawScore();
 
     
+}
+
+function drawSample() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    bigCircle.draw();
+    rectangle.draw();
+    rectangle2.draw();
+
+    userCircle.draw();
+
+
+    bigCircle.update();
+    rectangle.update();
+    rectangle2.update();
 }
 
 
