@@ -14,37 +14,38 @@ ctx.scale(13,13);
 var score = 1;
 var speed = 1;
 var intervalTimer = 30;
+var interval;
 var mx = canvas.width / canvas.clientWidth;
 var my = canvas.height / canvas.clientHeight;
 var angle = 0;
-var interval = setInterval(draw, intervalTimer);
+var sampleInterval = setInterval(drawSample, 30);
 var gameOverOverlay = document.getElementById("overlay");
+var StartGameOverlay = document.getElementById("start-overlay");
 
 
 // Game flow functions
 
-startBtn.addEventListener('click', () => {
+window.onload = function() {
+    startGame();
+}
 
-    if(score < 100) {
+startBtn.addEventListener('click', () => {
         location.reload();
         startGame();
-    }
-
-    else {
-        location.reload();
-    }
 })
 
 
 function startGame() {
-    interval
+    clearInterval(sampleInterval)
+    interval = setInterval(draw, intervalTimer);
     gameOverOverlay.style.width = "0%";
-    // setInterval(draw, interval)
+    score = 1;
+    speed = 1;
 
   }
 
   function gameOver() {
-
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
     if(score > 100) {
     clearInterval(interval);
     gameOverOverlay.style.width = "100%";
@@ -53,6 +54,11 @@ function startGame() {
     document.getElementById('start-game').innerHTML = "New Game";  
     speed = 1;
     setInterval(drawSample, 30);
+    intervalTimer = 30
+    score = 1;
+    speed = 1;
+    ctx.fillText("Score: "+score, 8, 20);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
     
 }
