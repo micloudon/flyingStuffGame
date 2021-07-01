@@ -77,12 +77,12 @@ const userCircle = {
     x: 100, 
     y: 50, 
     radius: 4,
-    color: "red",
+    // color: "#e03453",
     draw: function() {
         ctx.beginPath(),
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
-        ctx.fillStyle = this.color;
-        ctx.strokeStyle = "red";
+        ctx.fillStyle = "#e03453";
+        ctx.strokeStyle = "black";
         ctx.stroke();
         ctx.fill();
         ctx.closePath();
@@ -101,7 +101,7 @@ const tallRect = {
     draw: function() {
         ctx.beginPath();
         ctx.rect(this.x, this.y, 10, 135);
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "#479462";
         ctx.strokeStyle = "black";
         ctx.stroke();
         ctx.fill();
@@ -130,7 +130,7 @@ const square = {
     draw: function() {
         ctx.beginPath();
         ctx.rect(this.x, this.y, this.width, this.length);
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "#479462";
         ctx.strokeStyle = "black";
         ctx.stroke();
         ctx.fill();
@@ -154,7 +154,7 @@ const longRectBottom = {
     draw: function() {
         ctx.beginPath();
         ctx.rect(this.x, this.y, this.width, this.length);
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "#479462";
         ctx.strokeStyle = "black";
         ctx.stroke();
         ctx.fill();
@@ -204,7 +204,7 @@ const bigCircle = {
     draw: function() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "#9153a6";
         ctx.strokeStyle = "black";
         ctx.stroke();
         ctx.fill();

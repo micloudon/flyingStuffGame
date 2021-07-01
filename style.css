@@ -5,30 +5,12 @@
 
 #canvas {
 	position: absolute;
-	
 	width: 100%;
 	height: 100%;
 	top: 0;
 	left: 0;
 	/* object-fit: contain; */
 } 
-
-#home {
-	/* background-color: blue; */
-}
-
-.center {
-	margin-top: 5%;
-	margin-left: 30%; 
-	position: absolute;
-  	width: 40%;
-  	text-align: center;
-  	padding: 10px;
-	padding-bottom: 10px;
-	background: blue;
-	border: solid 4px #fff;
-}
-
 
 #overlay {
 	height: 100%;
@@ -52,7 +34,7 @@
   	text-align: center;
   	padding: 10px;
 	padding-bottom: 10px;
-	background: blue;
+	background:#0095DD;
 	border-radius: 5px;
 }
 
@@ -61,7 +43,7 @@
 	display: inline-block;
 	padding:0.3em 1.2em;
 	margin: auto;
-	background-color: blue;
+	background-color: #0095DD;
 	margin-top: 35px;
 	margin-bottom: 20px;
 	border:0.16em solid rgba(255,255,255,1);
@@ -78,17 +60,6 @@
 	border:0.25em solid rgba(255,255,255,1);
 }
 
-.instructionsHeader{
-	font-size: 2rem;
-	font-weight: bold;
-	color: #FFF;
-}
-
-.instructions{
-	font-size: 1.3rem;
-	color: #FFF;
-	font-weight: bold;
-}
 
 #game-over-msg{
 	font-size: 1.9rem;
