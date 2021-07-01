@@ -49,7 +49,7 @@ function startGame() {
     if(score > 100) {
     clearInterval(interval);
     gameOverOverlay.style.width = "100%";
-    document.getElementById('game-over-msg').innerHTML = "GameOver";
+    document.getElementById('game-over-msg').innerHTML = "Game Over";
     document.getElementById('display-score').innerHTML = "Your Score: " + (score + 1);
     document.getElementById('start-game').innerHTML = "New Game";  
     speed = 1;
