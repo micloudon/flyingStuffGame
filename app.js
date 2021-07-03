@@ -39,6 +39,7 @@ function startGame() {
     clearInterval(sampleInterval)
     interval = setInterval(draw, intervalTimer);
     gameOverOverlay.style.width = "0%";
+    canvas.style.backgroundColor = "black";
     score = 1;
     speed = 1;
 
@@ -49,6 +50,7 @@ function startGame() {
     if(score > 100) {
     clearInterval(interval);
     gameOverOverlay.style.width = "100%";
+    canvas.style.backgroundColor = "#3f9bd4";
     document.getElementById('game-over-msg').innerHTML = "Game Over";
     document.getElementById('display-score').innerHTML = "Your Score: " + (score + 1);
     document.getElementById('start-game').innerHTML = "New Game";  
@@ -66,7 +68,7 @@ function startGame() {
 
 function drawScore() {
     ctx.font = "16px Arial";
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "white";
     score++;
     ctx.fillText("Score: "+score, 8, 20);
    }
