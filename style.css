@@ -1,5 +1,5 @@
 *{
-	font-family:'Roboto',sans-serif;
+	font-family: Courier New, monospace;
 }
 
 
@@ -17,14 +17,10 @@
 	height: 100%;
 	width: 0%;
 	position: absolute;
-	z-index: 0;
 	top: 0;
 	left: 0;
 	color: white;
-	background-color: rgb(0,0,0);
-	background-color: rgba(0,0,0, 0.7);
 	overflow-x: hidden;
-	transition: 0.5s;
   } 
 
   .centerOverlay {
@@ -35,43 +31,47 @@
   	text-align: center;
   	padding: 10px;
 	padding-bottom: 10px;
-	background:#0095DD;
 	border-radius: 5px;
 }
 
 
-#start-game {
+/* #start-game:hover{
+	color: #d3d8de;
+	cursor: pointer;
+	border:0.16em solid #d3d8de;
+} */
+
+.game-btn {
 	display: inline-block;
 	padding:0.3em 1.2em;
 	margin: auto;
-	background-color: #0095DD;
+	background-color: black;
 	margin-top: 35px;
 	margin-bottom: 20px;
-	border:0.16em solid rgba(255,255,255,1);
-	border-radius:2em;
+	border:0.1em solid rgba(255,255,255,1);
+	border-radius:.5em;
 	text-decoration:none;
 	font-weight: bold;
 	font-size: 2.2rem;
 	color: white;
 	text-align:center;
-	transition: all 0.2s;
 }
 
-#start-game:hover{
+.game-btn:hover{
+	background-color: #071a38;
 	color: #d3d8de;
 	cursor: pointer;
-	border:0.16em solid #d3d8de;
+	border:0.1em solid #d3d8de;
 }
 
-
 #game-over-msg{
-	font-size: 1.9rem;
+	font-size: 2.3rem;
 	color: #FFF;
 	font-weight: bold;
 }
 
 #display-score{
-	font-size: 1.4rem;
+	font-size: 2.3rem;
 	color: #FFF;
 	font-weight: bold;
 }

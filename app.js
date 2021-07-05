@@ -50,7 +50,6 @@ function startGame() {
     if(score > 100) {
     clearInterval(interval);
     gameOverOverlay.style.width = "100%";
-    canvas.style.backgroundColor = "#3f9bd4";
     document.getElementById('game-over-msg').innerHTML = "Game Over";
     document.getElementById('display-score').innerHTML = "Your Score: " + (score + 1);
     document.getElementById('start-game').innerHTML = "New Game";  
@@ -61,13 +60,29 @@ function startGame() {
     speed = 1;
     ctx.fillText("Score: "+score, 8, 20);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    getHighScores()
     }
     
 }
 
+function getHighScores(){
+    fetch("https://o44cfwxt9b.execute-api.us-west-2.amazonaws.com/prod/score", {
+        method: "GET",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+      
+
+        // 'Accept': 'application/json',
+        // 'Content-Type': 'application/json',
+      })
+    .then(response => response.json())
+    .then(data => console.log(data));
+}
 
 function drawScore() {
-    ctx.font = "16px Arial";
+    ctx.font = "16px Courier New, monospace";
     ctx.fillStyle = "white";
     score++;
     ctx.fillText("Score: "+score, 8, 20);
