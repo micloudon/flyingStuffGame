@@ -1,6 +1,6 @@
 const canvas = document.getElementById("canvas");
 const startBtn = document.querySelector('#start-game');
-
+const submitBtn = document.querySelector('#submit-button')
 
 // improve resolution
 canvas.width = 3840;
@@ -34,6 +34,34 @@ startBtn.addEventListener('click', () => {
         startGame();
 })
 
+submitBtn.addEventListener('click', () => {
+    response();
+    postHighScore();
+    location.reload();
+    startGame();
+})
+
+function response() {
+    const playerName = document.getElementById('player-name').value;
+    console.log(playerName);
+    console.log(score);
+    data = {"name": playerName, "score": score };
+  }
+  
+  
+function postHighScore(){
+fetch("https://o44cfwxt9b.execute-api.us-west-2.amazonaws.com/prod/score", {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(data),
+})
+.then(response => response.json())
+
+}
+
 
 function startGame() {
     clearInterval(sampleInterval)
@@ -50,14 +78,14 @@ function startGame() {
     if(score > 100) {
     clearInterval(interval);
     gameOverOverlay.style.width = "100%";
-    document.getElementById('game-over-msg').innerHTML = "Game Over";
+    // document.getElementById('game-over-msg').innerHTML = "Game Over";
     document.getElementById('display-score').innerHTML = "Your Score: " + (score + 1);
     document.getElementById('start-game').innerHTML = "New Game";  
     speed = 1;
     setInterval(drawSample, 30);
     intervalTimer = 30
-    score = 1;
-    speed = 1;
+    // score = 1;
+    // speed = 1;
     ctx.fillText("Score: "+score, 8, 20);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     getHighScores()
@@ -72,13 +100,23 @@ function getHighScores(){
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         }
-      
-
-        // 'Accept': 'application/json',
-        // 'Content-Type': 'application/json',
       })
     .then(response => response.json())
-    .then(data => console.log(data));
+    .then((data) => {
+        const table = document.getElementById("high-scores-list")
+
+        for(let i = 0; i < data.length; i++){
+            let playerName = data[i].name
+            let score = data[i].score
+            const tableRow = table.insertRow(i)
+            tableRow.innerHTML = `<td>${playerName}</td><td>${score}</td>`;  
+        }
+
+    });
+
+
+    
+    
 }
 
 function drawScore() {
